@@ -1,0 +1,34 @@
+'use strict';
+
+const functions = require('firebase-functions');
+const { dialogflow, Permission } = require('actions-on-google');
+
+const app = dialogflow();
+
+app.intent('request_permission', (conv) => {
+    conv.data.requestedPermission = 'DEVICE_PRECISE_LOCATION';
+    return conv.ask(new Permission({
+        context: 'to locate you',
+        permissions: conv.data.requestedPermission,
+    }));
+
+});
+app.intent('user_info', (conv, params, permissionGranted) => {
+    if (permissionGranted) {
+        const { requestedPermission } = conv.data;
+        if (requestedPermission === 'DEVICE_PRECISE_LOCATION') {
+            const { coordinates } = conv.device.location;
+            // const city=conv.device.location.city;
+
+            if (coordinates) {
+                return conv.close(`You are at ${coordinates.latitude}`);
+            } else {
+                return conv.close('Sorry, I could not figure out where you are.');
+            }
+        }
+    } else {
+        return conv.close('Sorry, permission denied.');
+    }
+});
+
+exports.dialogflowFirebaseFulfillment = functions.https.onRequest(app);

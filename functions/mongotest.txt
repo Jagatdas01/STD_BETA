@@ -1,0 +1,23 @@
+const Express = require("express");
+const BodyParser = require("body-parser");
+const MongoClient = require("mongodb").MongoClient;
+const ObjectId = require("mongodb").ObjectID;
+
+const CONNECTION_URL = "mongodb+srv://jdas1:foxlife9887@cluster0-cerws.mongodb.net/test?retryWrites=true";
+
+MongoClient.Promise = global.Promise;
+MongoClient.connect(CONNECTION_URL, { useNewUrlParser: true }, (error, client) => {
+	if(error){
+		console.log(error);
+	}
+	const collection = client.db("stodo").collection("stododata");
+	
+    console.log("connected");
+     var ins = {taskId:'101',taskName:'buy share'};
+	 collection.insertOne(ins,function(err,res){
+	 console.log("data added");
+	 });
+	 client.close();
+});
+
+
