@@ -19,7 +19,7 @@ var serviceAccount = require("./serviceAccountKey.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://smarttodo-abc88.firebaseio.com/"
+  databaseURL: "https://***************.firebaseio.com/"
 });
 
 process.env.DEBUG = 'dialogflow:debug';
@@ -30,7 +30,7 @@ const mytestUrl = 'https://us-central1-smarttodo-abc88.cloudfunctions.net/app/';
 const wikipediaTemperatureImageUrl = 'https://upload.wikimedia.org/wikipedia/commons/2/23/Thermally_Agitated_Molecule.gif';
 
 const app = dialogflow({
-  clientId: "951904381429-l1sp1nebjbr88cmoah9unrhkfrm39tvj.apps.googleusercontent.com"
+  clientId: "************************"
 });
 
 app.intent("Start_Signin", conv => {
